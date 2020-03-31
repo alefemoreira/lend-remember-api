@@ -38,6 +38,8 @@ This project was developed with the following technologies:
 
 - [Node.js](https://nodejs.org/en/)
 
+<br/>
+
 ## :computer: Project
 
 System for you do not forget who you lent each thing.
@@ -51,9 +53,13 @@ System for you do not forget who you lent each thing.
 * Após a data combinada o item deve ficar destacado na lista de coisas emprestadas
 * Quando algo for devolvido, deve ser marcado no sistema que irá salvar a data
 
+<br/>
+
 ## :memo: License
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+<br/>
 
 ---
 Based on project [Projetos (reais) para aprender programação](https://www.tiagogouvea.com.br/profissional/projetos-reais-aprender-programacao/), written by [Tiago Gouvêa](https://github.com/TiagoGouvea)
