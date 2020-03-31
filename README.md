@@ -4,6 +4,8 @@
 
 <p align="center"> Remember of things and for who you lend with Lend-Remember!!</p>
 
+---
+
 ## Sistema para você não esquecer para quem emprestou cada coisa.
 
 * O usuário acessa/instala e seus dados ficam salvo
