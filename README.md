@@ -9,16 +9,16 @@
 <p align="center">Remember of things and for who you lend with Lend-Remember!!</p>
 
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/alefemoreira/lend-remember?color=blue">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/alefemoreira/lend-remember-api?color=blue">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/alefemoreira/lend-remember?color=blue">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/alefemoreira/lend-remember-api?color=blue">
   
-  <a href="https://github.com/alefemoreira/lend-remember/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alefemoreira/lend-remember?color=blue">
+  <a href="https://github.com/alefemoreira/lend-remember-api/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alefemoreira/lend-remember-api?color=blue">
   </a>
 
-  <a href="https://github.com/alefemoreira/lend-remember/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/alefemoreira/lend-remember?color=blue">
+  <a href="https://github.com/alefemoreira/lend-remember-api/issues">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/alefemoreira/lend-remember-api?color=blue">
   </a>
 
   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen?color=blue">
