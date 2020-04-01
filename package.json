@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "System for you do not forget who you lent each thing.",
   "main": "index.js",
-  "repository": "https://github.com/alefemoreira/lend-remember",
+  "repository": "https://github.com/alefemoreira/lend-remember-api",
   "author": "alefemoreira",
   "license": "MIT",
   "dependencies": {
