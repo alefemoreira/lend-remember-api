@@ -49,6 +49,7 @@ System for you do not forget who you lent each thing.
 - The **User** acesses/installs and yours informations make be saved;
 - It should receive the lent **Item**, date of lending and **Friend**'s contact;
 - Optionly can be there the date of devolution combined;
+---
 - The home screen list the lent things and allows click in a button for included new lendings;
 - After the combined date the **Item** must stay destacado on lent things list;
 - When something is returned, must be marked in system that will save the date.
