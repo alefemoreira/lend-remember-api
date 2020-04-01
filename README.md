@@ -4,7 +4,7 @@
   :arrow_right: Lend-Remember :calendar:
 </h1>
 
-<h2 align="center">API</>
+<h2 align="center">API</h2>
   
 <p align="center">Remember of things and for who you lend with Lend-Remember!!</p>
 
