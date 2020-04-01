@@ -28,7 +28,7 @@
   <a href="#memo-license">License</a>
 </p>
 
-<br>
+<br/>
 
 ---
 
@@ -46,12 +46,12 @@ System for you do not forget who you lent each thing.
 
 ### Stories
 
-* O usuário acessa/instala e seus dados ficam salvo
-* Deve receber o item emprestado, data que foi emprestado, e contato do amigo
-* Opcionalmente pode haver a data de devolução combinada
-* A tela inicial lista as coisas emprestadas e permite clicar em botão para incluir novo empréstimo
-* Após a data combinada o item deve ficar destacado na lista de coisas emprestadas
-* Quando algo for devolvido, deve ser marcado no sistema que irá salvar a data
+- The **User** acesses/installs and yours informations make be saved;
+- It should receive the lent **Item**, date of lending and **Friend**'s contact;
+- Optionly can be there the date of devolution combined;
+- The home screen list the lent things and allows click in a button for included new lendings;
+- After the combined date the **Item** must stay destacado on lent things list;
+- When something is returned, must be marked in system that will save the date.
 
 <br/>
 
@@ -62,4 +62,5 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 <br/>
 
 ---
+
 Based on project [Projetos (reais) para aprender programação](https://www.tiagogouvea.com.br/profissional/projetos-reais-aprender-programacao/), written by [Tiago Gouvêa](https://github.com/TiagoGouvea)
