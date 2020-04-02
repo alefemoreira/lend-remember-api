@@ -64,6 +64,10 @@ System for you do not forget who you lent each thing.
 
 ### :clipboard: Database Schema
 
+<p align="center">
+  <img src="./.github/lendRememberDatabaseSchema.png"/>
+</p>
+
 <br/>
 
 ## :memo: License
