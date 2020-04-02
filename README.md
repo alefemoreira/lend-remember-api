@@ -51,9 +51,10 @@ System for you do not forget who you lent each thing.
 - The **User** acesses/installs and yours informations (name, email, password) make be saved;
 - It should receive the lent **Item**, date of lending and **Friend**'s contact (email/whatsapp);
 - Optionly can be there the date of devolution combined;
-- If **Friend** have a account in system, it shoud be show on list how registred.
-- If a **User** already lent a **Item**, he do not need register again.
-- If a **User** already lent for a **Friend**, he do not need register again.
+- If **Friend** have a account in system, it shoud be show on list how registred;
+- If a **User** already lent a **Item**, he do not need register again;
+- If a **User** already lent for a **Friend**, he do not need register again;
+- When **Item** is returned, the **User** must be mark as received.
 
 ---
 
