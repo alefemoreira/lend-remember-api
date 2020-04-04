@@ -1,25 +1,51 @@
-const { User, Friend, Item, Lending } = require("../../src/app/models");
-const app = require("../../src/app");
-const truncate = require("../utils/truncate");
+const connection = require("../../src/database/connection");
 const request = require("supertest");
+const app = require("../../src/app");
+const bcrypt = require("bcryptjs");
 
-describe("Register", () => {
+describe("Register User", () => {
   beforeEach(async () => {
-    await truncate();
+    await connection.migrate.rollback();
+    await connection.migrate.latest();
   });
 
-  it("Should receive the name, email and password of new user and register him", async () => {
-    const body = {
-      name: "Àlefe de Lima Moreira",
-      email: "delimaalefe@gmail.com",
-      password: "123456"
-    };
+  afterAll(async () => {
+    await connection.destroy();
+  });
+
+  it("Should receive an name, email and password for register an user", async () => {
+    const response = await request(app)
+      .post("/users")
+      .send({
+        name: "Álefe Moreira",
+        email: "delimaalefe@gmail.com",
+        password: "123456"
+      });
+
+    expect(response.body).toHaveProperty("name");
+    expect(response.status).toBe(200);
+  });
+
+  it("Should storage hash of user password ", async () => {
+    const password = "123456";
+    const email = "delimaalefe@gmail.com";
 
     const response = await request(app)
       .post("/users")
-      .send(body);
+      .send({
+        name: "Álefe Moreira",
+        email,
+        password
+      });
 
-    expect(response.body).toHaveProperty("name");
+    const user = await connection("users")
+      .select("*")
+      .where("email", email)
+      .first();
+
+    const compareHash = await bcrypt.compare(password, user.password_hash);
+
+    expect(compareHash).toBe(true);
     expect(response.status).toBe(200);
   });
 });

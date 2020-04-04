@@ -7,20 +7,19 @@
   "author": "alefemoreira",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/server.js",
-    "pretest": "NODE_ENV=test sequelize db:migrate",
-    "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
+    "dev": "nodemon src/server.js",
+    "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "pg": "^8.0.0",
-    "sequelize": "^5.21.5"
+    "knex": "^0.20.13",
+    "pg": "^8.0.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
@@ -29,7 +28,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.2.4",
     "nodemon": "^2.0.2",
-    "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2"
   }
