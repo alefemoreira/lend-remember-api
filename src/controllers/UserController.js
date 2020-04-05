@@ -6,15 +6,12 @@ module.exports = {
     const { name, email, password } = req.body;
 
     const password_hash = await bcrypt.hash(password, 8);
-    console.log(password_hash);
 
     const user = await connection("users").insert({
       name,
       email,
       password_hash
     });
-
-    console.log(user);
 
     return res.json({ name });
   },

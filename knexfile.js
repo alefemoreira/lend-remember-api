@@ -1,5 +1,5 @@
 require("dotenv").config({
-  path: process.env.NODE_ENV === "test" ? ".env.test" : ".env"
+  path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
 });
 
 module.exports = {
@@ -9,24 +9,27 @@ module.exports = {
       host: process.env.DB_HOST,
       user: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME
+      database: process.env.DB_NAME,
     },
     migrations: {
       tableName: "knex_migrations",
-      directory: "./src/database/migrations"
-    }
+      directory: "./src/database/migrations",
+    },
   },
 
   test: {
-    client: "sqlite3",
+    client: "postgresql",
     connection: {
-      filename: "./__tests__/database_test.sqlite"
+      host: process.env.DB_HOST,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     },
     migrations: {
       tableName: "knex_migrations",
-      directory: "./src/database/migrations"
+      directory: "./src/database/migrations",
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
 
   staging: {
@@ -34,15 +37,15 @@ module.exports = {
     connection: {
       database: "my_db",
       user: "username",
-      password: "password"
+      password: "password",
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   production: {
@@ -50,14 +53,14 @@ module.exports = {
     connection: {
       database: "my_db",
       user: "username",
-      password: "password"
+      password: "password",
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
-  }
+      tableName: "knex_migrations",
+    },
+  },
 };
