@@ -1,51 +1,38 @@
-const connection = require("../../src/database/connection");
-const request = require("supertest");
+const { User } = require("../../src/app/models");
+const truncate = require("../utils/truncate");
 const app = require("../../src/app");
-const bcrypt = require("bcryptjs");
+const request = require("supertest");
 
-describe("Register User", () => {
+describe("User", () => {
   beforeEach(async () => {
-    await connection.migrate.rollback();
-    await connection.migrate.latest();
+    await truncate();
   });
 
-  afterAll(async () => {
-    await connection.destroy();
-  });
-
-  it("Should receive an name, email and password for register an user", async () => {
-    const response = await request(app)
-      .post("/users")
-      .send({
-        name: "Álefe Moreira",
-        email: "delimaalefe@gmail.com",
-        password: "123456"
-      });
+  it("Should receive the name, email and password for create a new user", async () => {
+    const response = await request(app).post("/users").send({
+      name: "Álefe Moreira",
+      email: "delimaalefe@gmail.com",
+      password: "123456",
+    });
 
     expect(response.body).toHaveProperty("name");
     expect(response.status).toBe(200);
   });
 
   it("Should storage hash of user password ", async () => {
-    const password = "123456";
-    const email = "delimaalefe@gmail.com";
+    const response = await request(app).post("/users").send({
+      name: "Álefe Moreira",
+      email: "delimaalefe@gmail.com",
+      password: "123456",
+    });
 
-    const response = await request(app)
-      .post("/users")
-      .send({
-        name: "Álefe Moreira",
-        email,
-        password
-      });
+    const user = await User.findOne({
+      where: { email: "delimaalefe@gmail.com" },
+    });
 
-    const user = await connection("users")
-      .select("*")
-      .where("email", email)
-      .first();
+    const checkPassword = await user.checkPassword("123456");
 
-    const compareHash = await bcrypt.compare(password, user.password_hash);
-
-    expect(compareHash).toBe(true);
+    expect(checkPassword).toBe(true);
     expect(response.status).toBe(200);
   });
 });

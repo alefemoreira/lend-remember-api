@@ -1,42 +1,104 @@
-const connection = require("../../src/database/connection");
-const request = require("supertest");
+const truncate = require("../utils/truncate");
+const factory = require("../factories");
 const app = require("../../src/app");
-const bcrypt = require("bcryptjs");
+const request = require("supertest");
 
-// jest.setTimeout(10000);
-
-describe("Authentication", () => {
-  beforeAll(async (async) => {
-    await connection.migrate.latest();
+describe("User", () => {
+  beforeAll(async () => {
+    await truncate();
   });
 
   beforeEach(async () => {
-    await connection.migrate.rollback();
-    await connection.migrate.latest();
+    await truncate();
   });
 
-  afterAll(async () => {
-    await connection.destroy();
-  });
-
-  it("Should authenticate with valid credencials", async () => {
-    const password_hash = await bcrypt.hash("123456", 8);
-
-    await connection("users").insert({
-      name: "Álefe Moreira",
-      email: "delima@alefe.com",
-      password_hash,
-    });
-
-    console.log("HEY 0");
-
-    const response = await request(app).post("/sessions").send({
-      email: "delima@alefe.com",
+  it("should authenticate with valid credentials", async () => {
+    const user = await factory.create("User", {
       password: "123456",
     });
 
-    console.log(response.status);
+    const response = await request(app).post("/sessions").send({
+      email: user.email,
+      password: "123456",
+    });
 
-    expect(200).toBe(200);
+    expect(response.status).toBe(200);
+  });
+
+  it("should not authenticate with invalid email", async () => {
+    const user = await factory.create("User", {
+      email: "delimaalefe@gmail.com",
+      password: "123456",
+    });
+
+    const response = await request(app).post("/sessions").send({
+      email: "delimaalefe@hotmail.com",
+      password: "123456",
+    });
+
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(400);
+  });
+
+  it("should not authenticate with invalid credentials", async () => {
+    const user = await factory.create("User", {
+      password: "123456",
+    });
+
+    const response = await request(app).post("/sessions").send({
+      email: user.email,
+      password: "123123",
+    });
+
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(401);
+  });
+
+  it("shoud return JWT token when authenticate", async () => {
+    const user = await factory.create("User", {
+      password: "123456",
+    });
+
+    const response = await request(app).post("/sessions").send({
+      email: user.email,
+      password: user.password,
+    });
+
+    expect(response.body).toHaveProperty("token");
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to access private routes when authenticated", async () => {
+    const user = await factory.create("User", {
+      password: "123456",
+    });
+
+    const response = await request(app)
+      .delete("/users")
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not be able to access private routes without jwt token", async () => {
+    const user = await factory.create("User", {
+      password: "123456",
+    });
+
+    const response = await request(app).delete("/users");
+
+    expect(response.status).toBe(401);
+  });
+
+  it("should not be able to access private routes with invalid jwt token", async () => {
+    const user = await factory.create("User", {
+      password: "123456",
+    });
+
+    const response = await request(app)
+      .delete("/users")
+      .set("Authorization", `Bearer 123123`);
+
+    expect(response.status).toBe(401);
   });
 });

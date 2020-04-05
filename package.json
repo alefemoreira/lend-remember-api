@@ -8,7 +8,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "test": "cross-env NODE_ENV=test jest"
+    "pretest": "cross-env NODE_ENV=test sequelize db:migrate",
+    "test": "cross-env NODE_ENV=test jest",
+    "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -16,8 +18,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.13",
-    "pg": "^8.0.0"
+    "pg": "^8.0.0",
+    "sequelize": "^5.21.6"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
@@ -28,8 +30,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "factory-girl": "^5.0.4",
+    "faker": "^4.1.0",
     "jest": "^25.2.4",
     "nodemon": "^2.0.2",
+    "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2"
   }
