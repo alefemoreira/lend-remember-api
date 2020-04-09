@@ -1,7 +1,8 @@
-const { User } = require("../../src/app/models");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
+const { User } = require("../../src/app/models");
+const faker = require("faker");
 
 describe("User", () => {
   beforeEach(async () => {
@@ -11,7 +12,7 @@ describe("User", () => {
   it("Should receive the name, email and password for create a new user", async () => {
     const response = await request(app).post("/users").send({
       name: "Álefe Moreira",
-      email: "delimaalefe@gmail.com",
+      email: faker.internet.email(),
       password: "123456",
     });
 
@@ -20,14 +21,16 @@ describe("User", () => {
   });
 
   it("Should storage hash of user password ", async () => {
+    const email = faker.internet.email();
+
     const response = await request(app).post("/users").send({
       name: "Álefe Moreira",
-      email: "delimaalefe@gmail.com",
+      email,
       password: "123456",
     });
 
     const user = await User.findOne({
-      where: { email: "delimaalefe@gmail.com" },
+      where: { email },
     });
 
     const checkPassword = await user.checkPassword("123456");
