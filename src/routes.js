@@ -10,5 +10,6 @@ routes.use(authMiddleware);
 
 routes.delete("/users", UserController.delete);
 routes.put("/users", UserController.update);
+routes.get("/users", UserController.index);
 
 module.exports = routes;

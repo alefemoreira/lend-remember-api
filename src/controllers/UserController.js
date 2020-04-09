@@ -1,6 +1,12 @@
 const { User } = require("../app/models");
 
 module.exports = {
+  async index(req, res) {
+    users = await User.findAll();
+
+    return res.json(users);
+  },
+
   async create(req, res) {
     const { name, email, password } = req.body;
 
