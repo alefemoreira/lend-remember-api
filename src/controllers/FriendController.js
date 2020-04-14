@@ -41,7 +41,7 @@ module.exports = {
 
     await Friend.destroy({ where: { id } });
 
-    return res.json({ message: `friend ${friend.id} was deleted` });
+    return res.json({ message: `Friend ${friend.id} was deleted` });
   },
 
   async update(req, res) {

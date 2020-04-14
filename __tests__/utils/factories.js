@@ -10,7 +10,7 @@ module.exports = {
     };
 
     const user = await User.create(body);
-    console.log(body);
+    // console.log(body);
 
     return user;
   },

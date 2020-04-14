@@ -6,6 +6,12 @@
   "repository": "https://github.com/alefemoreira/lend-remember-api",
   "author": "alefemoreira",
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "scripts": {
     "dev": "nodemon src/server.js",
     "premigrate": "cross-env NODE_ENV=test sequelize db:migrate:undo:all",
@@ -24,19 +30,27 @@
     "sequelize": "^5.21.6"
   },
   "devDependencies": {
+    "commitizen": "^4.0.4",
+    "commitlint": "^8.3.5",
     "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "factory-girl": "^5.0.4",
     "faker": "^4.1.0",
+    "husky": "^4.2.5",
     "jest": "^25.2.4",
     "nodemon": "^2.0.2",
     "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
