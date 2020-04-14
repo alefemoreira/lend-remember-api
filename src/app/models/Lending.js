@@ -1,24 +1,20 @@
-const User = require("./User");
-const Friend = require("./Friend");
-const Item = require("./Item");
-
 module.exports = (Sequelize, DataTypes) => {
   const Lending = Sequelize.define("Lending", {
-    id_user: {
+    user_id: {
       type: DataTypes.INTEGER,
       references: {
         model: "users",
         key: "id",
       },
     },
-    id_item: {
+    item_id: {
       type: DataTypes.INTEGER,
       references: {
         model: "items",
         key: "id",
       },
     },
-    id_friend: {
+    friend_id: {
       type: DataTypes.INTEGER,
       references: {
         model: "friends",

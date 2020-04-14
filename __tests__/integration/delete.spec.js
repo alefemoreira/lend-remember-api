@@ -2,7 +2,8 @@ const faker = require("faker");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { User } = require("../../src/app/models");
+const { User, Friend } = require("../../src/app/models");
+const { createUser, createFriend } = require("../utils/factories");
 
 describe("User", () => {
   beforeEach(async () => {
@@ -16,6 +17,10 @@ describe("User", () => {
       password: faker.internet.password(),
     });
 
+    user = await User.findOne({ where: { id: user.id } });
+
+    expect(user).not.toBe(null);
+
     const response = await request(app)
       .delete("/users")
       .set("authorization", `Bearer ${user.generateToken()}`);
@@ -23,6 +28,7 @@ describe("User", () => {
     user = await User.findOne({ where: { id: user.id } });
 
     expect(user).toBe(null);
+
     expect(response.status).toBe(200);
   });
 
@@ -43,5 +49,27 @@ describe("User", () => {
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(400);
+  });
+});
+
+describe("Friends", () => {
+  beforeEach(async () => {
+    await truncate();
+  });
+
+  it("should be able to delete a existent friend", async () => {
+    const user = await createUser();
+    let friend = await createFriend(user);
+
+    const response = await request(app)
+      .delete(`/friends/${friend.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    const { count, rows } = await Friend.findAndCountAll({
+      where: { id: friend.id },
+    });
+
+    expect(count).toBe(0);
+    expect(response.status).toBe(200);
   });
 });

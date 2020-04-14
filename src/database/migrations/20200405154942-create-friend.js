@@ -9,6 +9,14 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        allowNull: false,
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -16,7 +24,6 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       whatsapp: {
         type: Sequelize.STRING,

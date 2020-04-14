@@ -2,7 +2,8 @@ const faker = require("faker");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { User } = require("../../src/app/models");
+const { User, Friend } = require("../../src/app/models");
+const { createUser, createFriend } = require("../utils/factories");
 
 describe("User", () => {
   beforeEach(async () => {

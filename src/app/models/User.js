@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const Friend = require("./Friend");
+const Item = require("./Item");
 const Lending = require("./Lending");
 
 module.exports = (Sequelize, DataTypes) => {

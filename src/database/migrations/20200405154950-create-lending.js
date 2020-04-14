@@ -9,32 +9,26 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      id_user: {
+      user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: {
-            tableName: "users",
-          },
+          model: "users",
           key: "id",
         },
         allowNull: false,
       },
-      id_item: {
+      item_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: {
-            tableName: "items",
-          },
+          model: "items",
           key: "id",
         },
         allowNull: false,
       },
-      id_friend: {
+      friend_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: {
-            tableName: "friends",
-          },
+          model: "friends",
           key: "id",
         },
         allowNull: false,
