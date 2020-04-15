@@ -1,5 +1,5 @@
 const faker = require("faker");
-const { User, Friend } = require("../../src/app/models");
+const { User, Friend, Item } = require("../../src/app/models");
 
 module.exports = {
   async createUser(properties = {}) {
@@ -24,8 +24,21 @@ module.exports = {
     };
 
     const friend = await Friend.create(body);
-    console.log(body);
+    // console.log(body);
 
     return friend;
+  },
+
+  async createItem(user, properties = {}) {
+    const body = {
+      user_id: user.id,
+      title: properties.title || faker.commerce.productName(),
+      description: properties.description || faker.lorem.sentence(),
+    };
+
+    const item = await Item.create(body);
+    // console.log(body);
+
+    return item;
   },
 };

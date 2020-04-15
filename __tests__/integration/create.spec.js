@@ -46,7 +46,7 @@ describe("Friend", () => {
     await truncate();
   });
 
-  it("should be able to create a new user with all informations", async () => {
+  it("should be able to create a new friend with all informations", async () => {
     const user = await createUser();
 
     const body = {
@@ -107,6 +107,45 @@ describe("Friend", () => {
       .send(body)
       .set("authorization", `Bearer ${user.generateToken()}`);
 
+    expect(response.status).toBe(200);
+  });
+});
+
+describe("Friend", () => {
+  beforeEach(async () => {
+    await truncate();
+  });
+
+  it("should be able to create a Item with all informations", async () => {
+    const user = await createUser();
+
+    const body = {
+      title: faker.commerce.productName(),
+      description: faker.lorem.sentence(),
+    };
+
+    const response = await request(app)
+      .post("/items")
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).toHaveProperty("id");
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to create a Item only with title", async () => {
+    const user = await createUser();
+
+    const body = {
+      title: faker.commerce.productName(),
+    };
+
+    const response = await request(app)
+      .post("/items")
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).toHaveProperty("id");
     expect(response.status).toBe(200);
   });
 });

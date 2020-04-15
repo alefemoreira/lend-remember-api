@@ -37,4 +37,7 @@ db.Sequelize = Sequelize;
 db.User.hasMany(db.Friend);
 db.Friend.belongsTo(db.User);
 
+db.User.hasMany(db.Item);
+db.Item.belongsTo(db.User);
+
 module.exports = db;
