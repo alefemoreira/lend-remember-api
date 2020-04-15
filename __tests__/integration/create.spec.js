@@ -46,12 +46,59 @@ describe("Friends", () => {
     await truncate();
   });
 
-  it("should be able to create a new user", async () => {
+  it("should be able to create a new user with all informations", async () => {
     const user = await createUser();
 
     const body = {
       name: faker.name.findName(),
       email: faker.internet.email(),
+      whatsapp: faker.phone.phoneNumber(),
+    };
+
+    const response = await request(app)
+      .post("/friends")
+      .send(body)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to create a new user only with name", async () => {
+    const user = await createUser();
+
+    const body = {
+      name: faker.name.findName(),
+    };
+
+    const response = await request(app)
+      .post("/friends")
+      .send(body)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to create a new user only with name and email", async () => {
+    const user = await createUser();
+
+    const body = {
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+    };
+
+    const response = await request(app)
+      .post("/friends")
+      .send(body)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to create a new user only with name and whatsapp", async () => {
+    const user = await createUser();
+
+    const body = {
+      name: faker.name.findName(),
       whatsapp: faker.phone.phoneNumber(),
     };
 

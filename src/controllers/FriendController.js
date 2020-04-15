@@ -23,8 +23,8 @@ module.exports = {
     const { id } = await Friend.create({
       user_id,
       name,
-      email,
-      whatsapp,
+      email: email || "",
+      whatsapp: whatsapp || "",
     });
 
     return res.json({ id });
