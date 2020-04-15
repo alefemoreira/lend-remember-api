@@ -2,9 +2,11 @@ const { User, Friend } = require("../app/models");
 
 module.exports = {
   async index(req, res) {
+    const user_id = req.userId;
     const { page = 1 } = req.query;
 
     const { count, rows } = await Friend.findAndCountAll({
+      where: { user_id },
       limit: 5,
       offset: (page - 1) * 5,
       include: [

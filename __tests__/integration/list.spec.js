@@ -28,19 +28,30 @@ describe("Friend", () => {
     await truncate();
   });
 
-  /*it("should be able to list the 5 first friends of User", async () => {
+  afterEach(async () => {
+    await Friend.destroy({ truncate: true, force: true });
+  });
+
+  it("should be able to list the 5 first friends of User and show the total of friends register", async () => {
     const user = await createUser();
-    const friend = await Friend.create({
-      user_id: user.id,
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      whatsapp: faker.phone.phoneNumber(),
-    });
+    const user2 = await createUser();
+    const friends = [
+      await createFriend(user),
+      await createFriend(user),
+      await createFriend(user),
+      await createFriend(user),
+      await createFriend(user),
+      await createFriend(user),
+      await createFriend(user2),
+    ];
 
     const response = await request(app)
       .get("/friends?page=1")
       .set("authorization", `Bearer ${user.generateToken()}`);
 
+    expect(response.header).toHaveProperty("x-total-count");
+    expect(response.header["x-total-count"]).toBe("6");
+    expect(response.body.length).toBe(5);
     expect(response.status).toBe(200);
-  });*/
+  });
 });

@@ -52,7 +52,7 @@ describe("User", () => {
   });
 });
 
-describe("Friends", () => {
+describe("Friend", () => {
   beforeEach(async () => {
     await truncate();
   });
