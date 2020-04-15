@@ -117,9 +117,23 @@ describe("User", () => {
 
     const response = await request(app)
       .put("/users")
+      .send({})
       .set("authorization", `Bearer ${user.generateToken()}`);
 
     expect(response.status).toBe(400);
+  });
+
+  it("nothing should be happen if not passing body or passing a void body", async () => {
+    let user = await createUser();
+
+    const response = await request(app)
+      .put("/users")
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).not.toHaveProperty("name");
+    expect(response.body).not.toHaveProperty("email");
+    expect(response.body).not.toHaveProperty("password");
+    expect(response.status).toBe(200);
   });
 });
 
@@ -201,6 +215,43 @@ describe("Friend", () => {
     expect(response.body.whatsapp).toBe(body.whatsapp);
     expect(response.body.email).toBe(body.email);
     expect(response.body.name).toBe(body.name);
+    expect(response.status).toBe(200);
+  });
+
+  it("should not be able to update a nonexistent friend", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+
+    await Friend.destroy({ where: { id: friend.id } });
+
+    const body = {
+      name: "Àlefe de Lima Moreira",
+      email: "alefelim@gmail.com",
+      whatsapp: "+5583988883333",
+    };
+
+    const response = await request(app)
+      .put(`/friends/${friend.id}`)
+      .send(body)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
+
+  it("nothing should be happen if not passing body or passing a void body", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+
+    const body = {};
+
+    const response = await request(app)
+      .put(`/friends/${friend.id}`)
+      .send(body)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).not.toHaveProperty("name");
+    expect(response.body).not.toHaveProperty("email");
+    expect(response.body).not.toHaveProperty("whatsapp");
     expect(response.status).toBe(200);
   });
 });

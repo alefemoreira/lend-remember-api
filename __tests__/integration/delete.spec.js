@@ -72,4 +72,17 @@ describe("Friend", () => {
     expect(count).toBe(0);
     expect(response.status).toBe(200);
   });
+
+  it("should not be able to delete a nonexistent friend", async () => {
+    const user = await createUser();
+    let friend = await createFriend(user);
+
+    await Friend.destroy({ where: { id: friend.id } });
+
+    const response = await request(app)
+      .delete(`/friends/${friend.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
 });
