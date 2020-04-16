@@ -31,13 +31,30 @@ module.exports = {
   },
 
   async update(req, res) {
+    const user_id = req.userId;
+    const { id } = req.params;
     const { title, description } = req.body;
 
-    let body = {
-      title: title || "",
-      description: description || "",
-    };
+    let item = await Item.findOne({ where: { id } });
 
-    return res.json(body);
+    if (!item) {
+      return res.status(400).json({ message: `item does not exists` });
+    }
+
+    if (item.user_id != user_id) {
+      return res
+        .status(401)
+        .json({ message: `Unauthorized to update this item` });
+    }
+
+    item.set("title", title !== null ? title : item.title);
+    item.set(
+      "description",
+      description !== null ? description : item.description
+    );
+
+    item = await item.save();
+
+    return res.json(item);
   },
 };

@@ -52,10 +52,17 @@ module.exports = {
     const { id } = req.params;
     const { name, email, whatsapp } = req.body;
 
-    let friend = await Friend.findOne({ where: { id, user_id } }); //TESTAR
+    let friend = await Friend.findOne({ where: { id } });
 
     if (!friend) {
       return res.status(400).json({ message: `friend does not exists` });
+    }
+
+    if (friend.user_id != user_id) {
+      //TESTAR
+      return res
+        .status(401)
+        .json({ message: `Unauthorized to update this friend` });
     }
 
     friend.set("name", name !== null ? name : friend.name);

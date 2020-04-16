@@ -297,7 +297,7 @@ describe("Friend", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).toBe(body.title);
+    expect(response.body.title).toBe(body.title);
     // expect(response.body).not.toHaveProperty("description");
     expect(response.status).toBe(200);
   });
@@ -315,7 +315,7 @@ describe("Friend", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).toBe(body.description);
+    expect(response.body.description).toBe(body.description);
     // expect(response.body).not.toHaveProperty("title");
     expect(response.status).toBe(200);
   });
@@ -335,8 +335,8 @@ describe("Friend", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).not.toHaveProperty(body.title);
-    expect(response.body).not.toHaveProperty(body.description);
+    expect(response.body).not.toHaveProperty("title");
+    expect(response.body).not.toHaveProperty("description");
     expect(response.status).toBe(400);
   });
 });
