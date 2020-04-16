@@ -36,10 +36,16 @@ module.exports = {
     const user_id = req.userId;
     const { id } = req.params;
 
-    const friend = await Friend.findOne({ where: { id, user_id } });
+    const friend = await Friend.findOne({ where: { id } });
 
     if (!friend) {
       return res.status(400).json({ message: `friend does not exists` });
+    }
+
+    if (friend.user_id !== user_id) {
+      return res
+        .status(401)
+        .json({ message: `Unauthorized to delete this friend` });
     }
 
     await Friend.destroy({ where: { id, user_id } });

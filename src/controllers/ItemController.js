@@ -19,13 +19,19 @@ module.exports = {
     const user_id = req.userId;
     const { id } = req.params;
 
-    const item = await Item.findOne({ where: { id, user_id } });
+    const item = await Item.findOne({ where: { id } });
 
     if (!item) {
       return res.status(400).json({ message: `item does not exists` });
     }
 
-    await Item.destroy({ where: { id, user_id } });
+    if (item.user_id !== user_id) {
+      return res
+        .status(401)
+        .json({ message: `Unauthorized to delete this item` });
+    }
+
+    await Item.destroy({ where: { id } });
 
     return res.json({ message: `item ${item.id} was deleted` });
   },

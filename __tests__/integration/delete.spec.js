@@ -85,6 +85,18 @@ describe("Friend", () => {
 
     expect(response.status).toBe(400);
   });
+
+  it("should not be able to delete a friend of other user", async () => {
+    const user = await createUser();
+    const user2 = await createUser();
+    let friend = await createFriend(user2);
+
+    const response = await request(app)
+      .delete(`/friends/${friend.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(401);
+  });
 });
 
 describe("Item", () => {
@@ -108,5 +120,28 @@ describe("Item", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should not be able to delete a nonexistent friend", async () => {});
+  it("should not be able to delete a nonexistent item", async () => {
+    const user = await createUser();
+    const item = await createItem(user);
+
+    await Item.destroy({ where: { id: item.id } });
+
+    const response = await request(app)
+      .delete(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
+
+  it("should not be able to delete a item of other user", async () => {
+    const user = await createUser();
+    const user2 = await createUser();
+    const item = await createItem(user2);
+
+    const response = await request(app)
+      .delete(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(401);
+  });
 });

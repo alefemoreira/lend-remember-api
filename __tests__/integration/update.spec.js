@@ -254,9 +254,28 @@ describe("Friend", () => {
     expect(response.body).not.toHaveProperty("whatsapp");
     expect(response.status).toBe(200);
   });
+
+  it("should not be able to update a friend of other user", async () => {
+    const user = await createUser();
+    const user2 = await createUser();
+    const friend = await createFriend(user2);
+
+    const body = {
+      name: "Álefe",
+      email: "delimaalefe@gmail.com",
+      whatsapp: "+5583988884444",
+    };
+
+    const response = await request(app)
+      .put(`/friends/${friend.id}`)
+      .send(body)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(401);
+  });
 });
 
-describe("Friend", () => {
+describe("Item", () => {
   beforeEach(async () => {
     await truncate();
   });
@@ -338,5 +357,23 @@ describe("Friend", () => {
     expect(response.body).not.toHaveProperty("title");
     expect(response.body).not.toHaveProperty("description");
     expect(response.status).toBe(400);
+  });
+
+  it("should not be able to update a item of other user", async () => {
+    const user = await createUser();
+    const user2 = await createUser();
+    const item = await createItem(user2);
+
+    const body = {
+      description: "Galaxy A30",
+      description: "My smartphone",
+    };
+
+    const response = await request(app)
+      .put(`/items/${item.id}`)
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(401);
   });
 });
