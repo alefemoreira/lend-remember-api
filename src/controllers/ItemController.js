@@ -14,6 +14,7 @@ module.exports = {
 
     return res.json({ id });
   },
+
   async delete(req, res) {
     const user_id = req.userId;
     const { id } = req.params;
@@ -28,5 +29,15 @@ module.exports = {
 
     return res.json({ message: `item ${item.id} was deleted` });
   },
-  async update(req, res) {},
+
+  async update(req, res) {
+    const { title, description } = req.body;
+
+    let body = {
+      title: title || "",
+      description: description || "",
+    };
+
+    return res.json(body);
+  },
 };

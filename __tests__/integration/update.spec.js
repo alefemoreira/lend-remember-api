@@ -2,8 +2,8 @@ const faker = require("faker");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { User, Friend } = require("../../src/app/models");
-const { createUser, createFriend } = require("../utils/factories");
+const { User, Friend, Item } = require("../../src/app/models");
+const { createUser, createFriend, createItem } = require("../utils/factories");
 
 describe("User", () => {
   beforeEach(async () => {
@@ -197,7 +197,7 @@ describe("Friend", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should be able to update the al informations of a friend", async () => {
+  it("should be able to update the all informations of a friend", async () => {
     const user = await createUser();
     const friend = await createFriend(user);
 
@@ -253,5 +253,90 @@ describe("Friend", () => {
     expect(response.body).not.toHaveProperty("email");
     expect(response.body).not.toHaveProperty("whatsapp");
     expect(response.status).toBe(200);
+  });
+});
+
+describe("Friend", () => {
+  beforeEach(async () => {
+    await truncate();
+  });
+
+  afterEach(async () => {
+    await Item.destroy({ truncate: true, force: true });
+  });
+
+  it("should be able to update all informations of a item", async () => {
+    const user = await createUser();
+    const item = await createItem(user);
+
+    const body = {
+      title: "Galaxy A30",
+      description: "My smartphone",
+    };
+
+    const response = await request(app)
+      .put(`/items/${item.id}`)
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body.title).toBe(body.title);
+    expect(response.body.description).toBe(body.description);
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to update the title of a item", async () => {
+    const user = await createUser();
+    const item = await createItem(user);
+
+    const body = {
+      title: "Galaxy A30",
+    };
+
+    const response = await request(app)
+      .put(`/items/${item.id}`)
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).toBe(body.title);
+    // expect(response.body).not.toHaveProperty("description");
+    expect(response.status).toBe(200);
+  });
+
+  it("should be able to update the description of a item", async () => {
+    const user = await createUser();
+    const item = await createItem(user);
+
+    const body = {
+      description: "My smartphone",
+    };
+
+    const response = await request(app)
+      .put(`/items/${item.id}`)
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).toBe(body.description);
+    // expect(response.body).not.toHaveProperty("title");
+    expect(response.status).toBe(200);
+  });
+
+  it("should not be able to update any information of a nonexistent item", async () => {
+    const user = await createUser();
+    const item = await createItem(user);
+
+    await Item.destroy({ where: { id: item.id } });
+
+    const body = {
+      description: "My smartphone",
+    };
+
+    const response = await request(app)
+      .put(`/items/${item.id}`)
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body).not.toHaveProperty(body.title);
+    expect(response.body).not.toHaveProperty(body.description);
+    expect(response.status).toBe(400);
   });
 });

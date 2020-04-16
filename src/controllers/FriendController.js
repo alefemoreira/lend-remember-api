@@ -52,7 +52,7 @@ module.exports = {
     const { id } = req.params;
     const { name, email, whatsapp } = req.body;
 
-    let friend = await Friend.findOne({ where: { id, user_id } });
+    let friend = await Friend.findOne({ where: { id, user_id } }); //TESTAR
 
     if (!friend) {
       return res.status(400).json({ message: `friend does not exists` });
