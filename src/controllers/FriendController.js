@@ -33,24 +33,26 @@ module.exports = {
   },
 
   async delete(req, res) {
+    const user_id = req.userId;
     const { id } = req.params;
 
-    const friend = await Friend.findOne({ where: { id } });
+    const friend = await Friend.findOne({ where: { id, user_id } });
 
     if (!friend) {
       return res.status(400).json({ message: `friend does not exists` });
     }
 
-    await Friend.destroy({ where: { id } });
+    await Friend.destroy({ where: { id, user_id } });
 
     return res.json({ message: `Friend ${friend.id} was deleted` });
   },
 
   async update(req, res) {
+    const user_id = req.userId;
     const { id } = req.params;
     const { name, email, whatsapp } = req.body;
 
-    let friend = await Friend.findOne({ where: { id } });
+    let friend = await Friend.findOne({ where: { id, user_id } });
 
     if (!friend) {
       return res.status(400).json({ message: `friend does not exists` });

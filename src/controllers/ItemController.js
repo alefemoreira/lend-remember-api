@@ -16,7 +16,7 @@ module.exports = {
   },
   async delete(req, res) {
     const user_id = req.userId;
-    const id = req.params;
+    const { id } = req.params;
 
     const item = await Item.findOne({ where: { id, user_id } });
 
@@ -24,7 +24,7 @@ module.exports = {
       return res.status(400).json({ message: `item does not exists` });
     }
 
-    await Item.destroy({ where: { is, user_id } });
+    await Item.destroy({ where: { id, user_id } });
 
     return res.json({ message: `item ${item.id} was deleted` });
   },

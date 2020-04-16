@@ -2,7 +2,7 @@ const faker = require("faker");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { User, Friend } = require("../../src/app/models");
+const { User, Friend, Item } = require("../../src/app/models");
 const { createUser, createFriend, createItem } = require("../utils/factories");
 
 describe("User", () => {
@@ -92,7 +92,21 @@ describe("Friend", () => {
     await truncate();
   });
 
-  it("should be able to delete a existent item", async () => {});
+  it("should be able to delete a existent item", async () => {
+    const user = await createUser();
+    const item = await createItem(user);
+
+    const response = await request(app)
+      .delete(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    const { count } = await Item.findAndCountAll({
+      where: { id: item.id, user_id: user.id },
+    });
+
+    expect(count).toBe(0);
+    expect(response.status).toBe(200);
+  });
 
   it("should not be able to delete a nonexistent friend", async () => {});
 });

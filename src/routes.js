@@ -21,8 +21,8 @@ routes.put("/friends/:id", FriendController.update);
 routes.delete("/friends/:id", FriendController.delete);
 
 routes.post("/items", ItemController.create);
-// routes.get("/items", ItemController.index);
-// routes.put("/items/:id", ItemController.update);
-// routes.delete("/items/:id", ItemController.delete);
+routes.get("/items", ItemController.index);
+routes.put("/items/:id", ItemController.update);
+routes.delete("/items/:id", ItemController.delete);
 
 module.exports = routes;
