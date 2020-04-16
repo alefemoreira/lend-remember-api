@@ -3,7 +3,7 @@ const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
 const { User, Friend } = require("../../src/app/models");
-const { createUser, createFriend } = require("../utils/factories");
+const { createUser, createFriend, createItem } = require("../utils/factories");
 
 describe("User", () => {
   beforeEach(async () => {
@@ -59,7 +59,7 @@ describe("Friend", () => {
 
   it("should be able to delete a existent friend", async () => {
     const user = await createUser();
-    let friend = await createFriend(user);
+    const friend = await createFriend(user);
 
     const response = await request(app)
       .delete(`/friends/${friend.id}`)
@@ -85,4 +85,14 @@ describe("Friend", () => {
 
     expect(response.status).toBe(400);
   });
+});
+
+describe("Friend", () => {
+  beforeEach(async () => {
+    await truncate();
+  });
+
+  it("should be able to delete a existent item", async () => {});
+
+  it("should not be able to delete a nonexistent friend", async () => {});
 });
