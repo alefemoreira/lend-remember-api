@@ -1,7 +1,23 @@
 const { User, Item } = require("../app/models");
 
 module.exports = {
-  async index(req, res) {},
+  async index(req, res) {
+    const user_id = req.userId;
+    const { page = 1 } = req.query;
+
+    const { count, rows } = await Item.findAndCountAll({
+      where: { user_id },
+      limit: 5,
+      offset: (page - 1) * 5,
+      include: [
+        { model: User, required: true, attributes: ["id", "name", "email"] },
+      ],
+    });
+
+    res.header("X-Total-Count", count);
+    return res.json(rows);
+  },
+
   async create(req, res) {
     const user_id = req.userId;
     const { title, description } = req.body;
