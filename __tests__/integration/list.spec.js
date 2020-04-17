@@ -50,6 +50,7 @@ describe("Friend", () => {
   });
 
   it("should be able to list the first 5 friends of User", async () => {
+    const QUANTITY_FRIEND_EXPECT = 5;
     const user = await createUser();
 
     for (i = 0; i < 6; i++) {
@@ -62,12 +63,13 @@ describe("Friend", () => {
       .get(`/friends?page=1`)
       .set("authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body.length).toBe(5);
+    expect(response.body.length).toBe(QUANTITY_FRIEND_EXPECT);
     expect(response.status).toBe(200);
   });
 
   it("should be able to list all friends, show through pages, maximum 5 per page", async () => {
     const user = await createUser();
+    const MAX_FRIEND_PER_PAGE = 5;
     const FRIENDS_QUANTITY = 12;
     const friendsOfUser = Array();
     let page = 0;
@@ -78,12 +80,12 @@ describe("Friend", () => {
     }
 
     while (totalReceived < FRIENDS_QUANTITY) {
-      let expect_quantity = 5;
-      const totalToReceive = FRIENDS_QUANTITY - totalReceived;
+      let expect_quantity = MAX_FRIEND_PER_PAGE;
+      const TOTAL_TO_RECEIVE = FRIENDS_QUANTITY - totalReceived;
       page++;
 
-      if (totalToReceive <= 5) {
-        expect_quantity = totalToReceive;
+      if (TOTAL_TO_RECEIVE <= MAX_FRIEND_PER_PAGE) {
+        expect_quantity = TOTAL_TO_RECEIVE;
       }
 
       const response = await request(app)
@@ -127,6 +129,7 @@ describe("Item", () => {
   });
 
   it("should be able to list the first 5 items of User", async () => {
+    const QUANTITY_ITEM_EXPECT = 5;
     const user = await createUser();
     const user2 = await createUser();
     const itemsOfUser = Array();
@@ -142,13 +145,14 @@ describe("Item", () => {
       .set("authorization", `Bearer ${user.generateToken()}`);
 
     expect(response.header["x-total-count"]).toBe(String(itemsOfUser.length));
-    expect(response.body.length).toBe(5);
+    expect(response.body.length).toBe(QUANTITY_ITEM_EXPECT);
     expect(response.status).toBe(200);
   });
 
   it("should be able to list all items, show through pages, maximum 5 per page", async () => {
-    const user = await createUser();
     const ITEMS_QUANTITY = 12;
+    const MAX_ITEM_PER_PAGE = 5;
+    const user = await createUser();
     const items = Array();
     let totalReceived = 0;
     let page = 0;
@@ -158,12 +162,12 @@ describe("Item", () => {
     }
 
     while (totalReceived < ITEMS_QUANTITY) {
-      const totalToReceive = ITEMS_QUANTITY - totalReceived;
-      let expect_quantity = 5;
+      const TOTAL_TO_RECEIVE = ITEMS_QUANTITY - totalReceived;
+      let expect_quantity = MAX_ITEM_PER_PAGE;
       page++;
 
-      if (totalToReceive <= 5) {
-        expect_quantity = totalToReceive;
+      if (TOTAL_TO_RECEIVE <= MAX_ITEM_PER_PAGE) {
+        expect_quantity = TOTAL_TO_RECEIVE;
       }
 
       const response = await request(app)
