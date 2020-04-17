@@ -66,7 +66,7 @@ describe("Friend", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should be able to list all friends, maximum 5 per page", async () => {
+  it("should be able to list all friends, show through pages, maximum 5 per page", async () => {
     const user = await createUser();
     const FRIENDS_QUANTITY = 12;
     const friendsOfUser = Array();
@@ -146,7 +146,7 @@ describe("Item", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should be able to list all items, maximum 5 per page", async () => {
+  it("should be able to list all items, show through pages, maximum 5 per page", async () => {
     const user = await createUser();
     const ITEMS_QUANTITY = 12;
     const items = Array();
