@@ -1,5 +1,5 @@
 const faker = require("faker");
-const { User, Friend, Item } = require("../../src/app/models");
+const { User, Friend, Item, Lending } = require("../../src/app/models");
 
 module.exports = {
   async createUser(properties = {}) {
@@ -40,5 +40,21 @@ module.exports = {
     // console.log(body);
 
     return item;
+  },
+
+  async createLending(user, friend, item, properties = {}) {
+    const body = {
+      user_id: user.id,
+      friend_id: friend.id,
+      item_id: item.id,
+      lending_date: properties.lending_date || faker.date.recent(1),
+      receive_date: properties.lending_date || faker.date.future(),
+      received: properties.received || false,
+    };
+
+    const lending = await Lending.create(body);
+    console.log(body);
+
+    return lending;
   },
 };

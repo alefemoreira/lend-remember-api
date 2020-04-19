@@ -3,8 +3,9 @@ const authMiddleware = require("./app/middlewares/auth");
 
 const FriendController = require("./controllers/FriendController");
 const ItemController = require("./controllers/ItemController");
-const UserController = require("./controllers/UserController");
+const LendingController = require("./controllers/LendingController");
 const SessionController = require("./controllers/SessionController");
+const UserController = require("./controllers/UserController");
 
 routes.post("/users", UserController.create);
 routes.post("/sessions", SessionController.create);
@@ -24,5 +25,10 @@ routes.post("/items", ItemController.create);
 routes.get("/items", ItemController.index);
 routes.put("/items/:id", ItemController.update);
 routes.delete("/items/:id", ItemController.delete);
+
+routes.post("/lendings", LendingController.create);
+routes.get("/lendings", LendingController.index);
+routes.put("/lendings/:id", LendingController.update);
+routes.delete("/lendings/:id", LendingController.delete);
 
 module.exports = routes;
