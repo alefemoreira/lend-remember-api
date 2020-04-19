@@ -161,7 +161,6 @@ describe("Lending", () => {
     const item = await createItem(user);
 
     const body = {
-      user_id: user.id,
       friend_id: friend.id,
       item_id: item.id,
       lending_date: "2020-04-18",
@@ -184,7 +183,6 @@ describe("Lending", () => {
     const item = await createItem(user);
 
     const body = {
-      user_id: user.id,
       friend_id: friend.id,
       item_id: item.id,
       lending_date: "2020-04-18",
@@ -205,7 +203,6 @@ describe("Lending", () => {
     const item = await createItem(user);
 
     const body = {
-      user_id: user.id,
       friend_id: friend.id,
       item_id: item.id,
       lending_date: "2020-04-18",
@@ -227,7 +224,6 @@ describe("Lending", () => {
     const item = await createItem(user);
 
     const body = {
-      user_id: user.id,
       friend_id: friend.id,
       item_id: item.id,
       lending_date: "2020-04-18",
@@ -243,35 +239,12 @@ describe("Lending", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should not be able to create a Lending without user", async () => {
-    const user = await createUser();
-    const friend = await createFriend(user);
-    const item = await createItem(user);
-
-    const body = {
-      friend_id: friend.id,
-      item_id: item.id,
-      lending_date: "2020-04-18",
-      receive_date: "2020-05-18",
-      received: false,
-    };
-
-    const response = await request(app)
-      .post("/lendings")
-      .send(body)
-      .set("Authorization", `Bearer ${user.generateToken()}`);
-
-    expect(response.body).toHaveProperty("id");
-    expect(response.status).toBe(400);
-  });
-
   it("should not be able to create a Lending without friend", async () => {
     const user = await createUser();
     const friend = await createFriend(user);
     const item = await createItem(user);
 
     const body = {
-      user_id: user.id,
       item_id: item.id,
       lending_date: "2020-04-18",
       receive_date: "2020-05-18",
@@ -293,7 +266,6 @@ describe("Lending", () => {
     const item = await createItem(user);
 
     const body = {
-      user_id: user.id,
       friend_id: friend.id,
       lending_date: "2020-04-18",
       receive_date: "2020-05-18",
@@ -309,7 +281,7 @@ describe("Lending", () => {
     expect(response.status).toBe(400);
   });
 
-  it("should not be able to create a Lending without user, friend and item", async () => {
+  it("should not be able to create a Lending without friend and item", async () => {
     const user = await createUser();
     const friend = await createFriend(user);
     const item = await createItem(user);
