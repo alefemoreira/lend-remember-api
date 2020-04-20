@@ -302,6 +302,26 @@ describe("Lending", () => {
     expect(response.status).toBe(500);
   });
 
+  it("should not be able to create a Lending without lending_date", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+    const item = await createItem(user);
+
+    const body = {
+      friend_id: friend.id,
+      item_id: item.id,
+      receive_date: "2020-05-18",
+      received: false,
+    };
+
+    const response = await request(app)
+      .post("/lendings")
+      .send(body)
+      .set("Authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(500);
+  });
+
   it("should not be able to create a Lending without all informations", async () => {
     const user = await createUser();
     const friend = await createFriend(user);
