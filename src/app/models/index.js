@@ -25,6 +25,20 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+db.User.hasMany(db.Friend);
+db.Friend.belongsTo(db.User);
+
+db.User.hasMany(db.Item);
+db.Item.belongsTo(db.User);
+
+db.User.hasMany(db.Lending);
+db.Friend.hasMany(db.Lending);
+db.Item.hasMany(db.Lending);
+
+db.Lending.belongsTo(db.User);
+db.Lending.belongsTo(db.Friend);
+db.Lending.belongsTo(db.Item);
+
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
@@ -33,11 +47,5 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-db.User.hasMany(db.Friend);
-db.Friend.belongsTo(db.User);
-
-db.User.hasMany(db.Item);
-db.Item.belongsTo(db.User);
 
 module.exports = db;

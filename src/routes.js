@@ -1,4 +1,5 @@
 const routes = require("express").Router();
+const { celebrate, Segments, Joi } = require("celebrate");
 const authMiddleware = require("./app/middlewares/auth");
 
 const FriendController = require("./controllers/FriendController");
@@ -26,7 +27,19 @@ routes.get("/items", ItemController.index);
 routes.put("/items/:id", ItemController.update);
 routes.delete("/items/:id", ItemController.delete);
 
-routes.post("/lendings", LendingController.create);
+routes.post(
+  "/lendings",
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      friend_id: Joi.number().integer().required(),
+      item_id: Joi.number().integer().required(),
+      lending_date: Joi.date().required(),
+      receive_date: Joi.date(),
+      received: Joi.boolean(),
+    }),
+  }),
+  LendingController.create
+);
 routes.get("/lendings", LendingController.index);
 routes.put("/lendings/:id", LendingController.update);
 routes.delete("/lendings/:id", LendingController.delete);
