@@ -1,7 +1,7 @@
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { User } = require("../../src/app/models");
+const { User, Friend, Item, Lending } = require("../../src/app/models");
 const faker = require("faker");
 const { createUser, createFriend, createItem } = require("../utils/factories");
 
@@ -155,6 +155,10 @@ describe("Lending", () => {
     await truncate();
   });
 
+  afterEach(async () => {
+    await Lending.destroy({ truncate: true, force: true });
+  });
+
   it("should be able to create a Lending with all information", async () => {
     const user = await createUser();
     const friend = await createFriend(user);
@@ -256,8 +260,7 @@ describe("Lending", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).toHaveProperty("id");
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it("should not be able to create a Lending without item", async () => {
@@ -277,8 +280,7 @@ describe("Lending", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).toHaveProperty("id");
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it("should not be able to create a Lending without friend and item", async () => {
@@ -297,8 +299,7 @@ describe("Lending", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).toHaveProperty("id");
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it("should not be able to create a Lending without all informations", async () => {
@@ -313,7 +314,6 @@ describe("Lending", () => {
       .send(body)
       .set("Authorization", `Bearer ${user.generateToken()}`);
 
-    expect(response.body).toHaveProperty("id");
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 });
