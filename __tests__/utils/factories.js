@@ -53,7 +53,7 @@ module.exports = {
     };
 
     const lending = await Lending.create(body);
-    console.log(body);
+    // console.log(body);
 
     return lending;
   },
