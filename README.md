@@ -58,6 +58,26 @@ System for you do not forget who you lent each thing.
 
 <br/>
 
+## :clipboard: Commands
+
+### Production
+```
+yarn start
+```
+
+### Development
+```
+yarn dev
+```
+
+### Test
+```
+yarn test -i
+```
+
+
+<br/>
+
 ## :memo: License
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
