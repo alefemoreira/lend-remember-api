@@ -63,7 +63,7 @@ module.exports = {
       return res.status(400).json({ message: `item does not exists` });
     }
 
-    if (item.user_id != user_id) {
+    if (item.user_id !== user_id) {
       return res
         .status(401)
         .json({ message: `Unauthorized to update this item` });

@@ -13,6 +13,7 @@
     }
   },
   "scripts": {
+    "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "premigrate": "cross-env NODE_ENV=test sequelize db:migrate:undo:all",
     "migrate": "cross-env NODE_ENV=test sequelize db:migrate",
@@ -48,6 +49,7 @@
     "jest": "^25.2.4",
     "nodemon": "^2.0.2",
     "sequelize-cli": "^5.5.1",
+    "shelljs": "^0.8.4",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2"
   },
