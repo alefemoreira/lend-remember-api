@@ -1,4 +1,4 @@
-const { User, Item } = require("../app/models");
+const { User, Item, Lending } = require("../app/models");
 
 module.exports = {
   async index(req, res) {
@@ -47,6 +47,7 @@ module.exports = {
         .json({ message: `Unauthorized to delete this item` });
     }
 
+    await Lending.destroy({ where: { item_id: id } });
     await Item.destroy({ where: { id } });
 
     return res.json({ message: `item ${item.id} was deleted` });

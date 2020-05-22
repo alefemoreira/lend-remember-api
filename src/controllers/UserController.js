@@ -1,4 +1,4 @@
-const { User } = require("../app/models");
+const { User, Friend, Item, Lending } = require("../app/models");
 
 module.exports = {
   async index(req, res) {
@@ -28,6 +28,9 @@ module.exports = {
       return res.status(400).json({ message: `user does not exists` });
     }
 
+    await Lending.destroy({ where: { user_id: id } });
+    await Friend.destroy({ where: { user_id: id } });
+    await Item.destroy({ where: { user_id: id } });
     await User.destroy({ where: { id } });
 
     return res.json({ message: `user ${id} was deleted` });

@@ -1,4 +1,4 @@
-const { User, Friend } = require("../app/models");
+const { User, Friend, Lending } = require("../app/models");
 
 module.exports = {
   async index(req, res) {
@@ -48,6 +48,7 @@ module.exports = {
         .json({ message: `Unauthorized to delete this friend` });
     }
 
+    await Lending.destroy({ where: { friend_id: id } });
     await Friend.destroy({ where: { id, user_id } });
 
     return res.json({ message: `Friend ${friend.id} was deleted` });
