@@ -2,9 +2,14 @@ const shell = require("shelljs");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { User } = require("../../src/app/models");
+const { User, Friend, Item, Lending } = require("../../src/app/models");
 const faker = require("faker");
-const { createUser } = require("../utils/factories");
+const {
+  createUser,
+  createFriend,
+  createItem,
+  createLending,
+} = require("../utils/factories");
 
 describe("Create User", () => {
   beforeEach(async () => {
@@ -246,5 +251,27 @@ describe("Delete User", () => {
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(400);
+  });
+
+  it("should be able to delete all entities that depends of User", async () => {
+    let user = await createUser();
+    let friend = await createFriend(user);
+    let item = await createItem(user);
+    let lending = await createLending(user, friend, item);
+
+    const response = await request(app)
+      .delete("/users")
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    user = await User.findOne({ where: { id: user.id } });
+    friend = await Friend.findOne({ where: { id: friend.id } });
+    item = await Item.findOne({ where: { id: item.id } });
+    lending = await Lending.findOne({ where: { id: lending.id } });
+
+    expect(user).toBe(null);
+    expect(friend).toBe(null);
+    expect(item).toBe(null);
+    expect(lending).toBe(null);
+    expect(response.status).toBe(200);
   });
 });

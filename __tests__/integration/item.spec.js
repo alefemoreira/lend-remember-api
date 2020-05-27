@@ -2,8 +2,13 @@ const faker = require("faker");
 const truncate = require("../utils/truncate");
 const app = require("../../src/app");
 const request = require("supertest");
-const { Item } = require("../../src/app/models");
-const { createUser, createItem } = require("../utils/factories");
+const { User, Friend, Item, Lending } = require("../../src/app/models");
+const {
+  createUser,
+  createFriend,
+  createItem,
+  createLending,
+} = require("../utils/factories");
 
 describe("Create Item", () => {
   beforeEach(async () => {
@@ -276,5 +281,27 @@ describe("Delete Item", () => {
       .set("authorization", `Bearer ${user.generateToken()}`);
 
     expect(response.status).toBe(401);
+  });
+
+  it("should be able to delete all entities that depends of Friend", async () => {
+    let user = await createUser();
+    let friend = await createFriend(user);
+    let item = await createItem(user);
+    let lending = await createLending(user, friend, item);
+
+    const response = await request(app)
+      .delete(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    user = await User.findOne({ where: { id: user.id } });
+    friend = await Friend.findOne({ where: { id: friend.id } });
+    item = await Item.findOne({ where: { id: item.id } });
+    lending = await Lending.findOne({ where: { id: lending.id } });
+
+    expect(user).not.toBe(null);
+    expect(friend).not.toBe(null);
+    expect(item).toBe(null);
+    expect(lending).toBe(null);
+    expect(response.status).toBe(200);
   });
 });
