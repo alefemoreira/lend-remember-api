@@ -1,7 +1,7 @@
 <br/>
 
 <h1 align="center">
-  :arrow_right: Lend-Remember :calendar:
+  <img src="./.github/logo.svg" alt="Lend-Remember" title="lend-remember" width="250px"/>
 </h1>
 
 <h2 align="center">API</h2>
