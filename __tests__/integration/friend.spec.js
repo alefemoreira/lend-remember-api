@@ -160,6 +160,43 @@ describe("List Friend", () => {
       totalReceived += expect_quantity;
     }
   });
+
+  it("should be able to show only one Friend", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+
+    const response = await request(app)
+      .get(`/friends/${friend.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body.id).toBe(friend.id);
+    expect(response.status).toBe(200);
+  });
+
+  it("should not be able to show a nonexistent Friend", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+
+    await friend.destroy();
+
+    const response = await request(app)
+      .get(`/friends/${friend.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
+
+  it("should not be able to show a Friend of other User", async () => {
+    const user = await createUser();
+    const otherUser = await createUser();
+    const friend = await createFriend(otherUser);
+
+    const response = await request(app)
+      .get(`/friends/${friend.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
 });
 
 describe("Update Friend", () => {

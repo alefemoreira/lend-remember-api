@@ -128,6 +128,43 @@ describe("List Item", () => {
       totalReceived += expect_quantity;
     }
   });
+
+  it("should be able to show only one Item", async () => {
+    let user = await createUser();
+    let item = await createItem(user);
+
+    const response = await request(app)
+      .get(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body.id).toBe(item.id);
+    expect(response.status).toBe(200);
+  });
+
+  it("should not be able to show a nonexistent Item", async () => {
+    let user = await createUser();
+    let item = await createItem(user);
+
+    await item.destroy();
+
+    const response = await request(app)
+      .get(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
+
+  it("should not be able to show a Item of other User", async () => {
+    let user = await createUser();
+    let otherUser = await createUser();
+    let item = await createItem(otherUser);
+
+    const response = await request(app)
+      .get(`/items/${item.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
 });
 
 describe("Update Item", () => {

@@ -355,6 +355,50 @@ describe("List Lending", () => {
       totalReceived += expect_quantity;
     }
   });
+
+  it("should be able to show only one lending", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+    const item = await createItem(user);
+    const lending = await createLending(user, friend, item);
+
+    const response = await request(app)
+      .get(`/lendings/${lending.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.body.id).toBe(lending.id);
+    expect(response.status).toBe(200);
+  });
+
+  it("should not be able to show a nonexistent lending", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+    const item = await createItem(user);
+    const lending = await createLending(user, friend, item);
+
+    await lending.destroy();
+
+    const response = await request(app)
+      .get(`/lendings/${lending.id}`)
+      .set("authorization", `Bearer ${user.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
+
+  it("should not be able to show a lending of other user", async () => {
+    const user = await createUser();
+    const friend = await createFriend(user);
+    const item = await createItem(user);
+    const lending = await createLending(user, friend, item);
+
+    const anotherUser = await createUser();
+
+    const response = await request(app)
+      .get(`/lendings/${lending.id}`)
+      .set("authorization", `Bearer ${anotherUser.generateToken()}`);
+
+    expect(response.status).toBe(400);
+  });
 });
 
 describe("Update Lending", () => {
