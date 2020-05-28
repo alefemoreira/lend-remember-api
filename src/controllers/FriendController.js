@@ -18,6 +18,24 @@ module.exports = {
     return res.json(rows);
   },
 
+  async show(req, res) {
+    const user_id = req.userId;
+    const { id } = req.params;
+
+    const friend = await Friend.findOne({
+      where: { id, user_id },
+      include: [
+        { model: User, required: true, attributes: ["id", "name", "email"] },
+      ],
+    });
+
+    if (!friend) {
+      return res.status(400).json({ error: "Friend does not exist" });
+    }
+
+    return res.json(friend);
+  },
+
   async create(req, res) {
     const user_id = req.userId;
     const { name, email, whatsapp } = req.body;

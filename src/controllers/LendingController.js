@@ -20,6 +20,26 @@ module.exports = {
     return res.json(rows);
   },
 
+  async show(req, res) {
+    const user_id = req.userId;
+    const { id } = req.params;
+
+    const lending = await Lending.findOne({
+      where: { id, user_id },
+      include: [
+        { model: User, required: true, attributes: ["id", "name", "email"] },
+        { model: Item, required: true, attributes: ["id", "title"] },
+        { model: Friend, required: true, attributes: ["id", "name"] },
+      ],
+    });
+
+    if (!lending) {
+      return res.status(400).json({ error: "Lending does not exist" });
+    }
+
+    return res.json(lending);
+  },
+
   async create(req, res) {
     const user_id = req.userId;
     const {

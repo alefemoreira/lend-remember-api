@@ -19,11 +19,35 @@ routes.get("/users", UserController.index);
 
 routes.post("/friends", FriendController.create);
 routes.get("/friends", FriendController.index);
+routes.get(
+  "/friends/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().integer().required(),
+    }),
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+  }),
+  FriendController.show
+);
 routes.put("/friends/:id", FriendController.update);
 routes.delete("/friends/:id", FriendController.delete);
 
 routes.post("/items", ItemController.create);
 routes.get("/items", ItemController.index);
+routes.get(
+  "/items/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().integer().required(),
+    }),
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+  }),
+  ItemController.show
+);
 routes.put("/items/:id", ItemController.update);
 routes.delete("/items/:id", ItemController.delete);
 
@@ -41,6 +65,18 @@ routes.post(
   LendingController.create
 );
 routes.get("/lendings", LendingController.index);
+routes.get(
+  "/lendings/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().integer().required(),
+    }),
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+  }),
+  LendingController.show
+);
 routes.put("/lendings/:id", LendingController.update);
 routes.delete("/lendings/:id", LendingController.delete);
 

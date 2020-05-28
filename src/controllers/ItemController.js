@@ -18,6 +18,24 @@ module.exports = {
     return res.json(rows);
   },
 
+  async show(req, res) {
+    const user_id = req.userId;
+    const { id } = req.params;
+
+    const item = await Item.findOne({
+      where: { id, user_id },
+      include: [
+        { model: User, required: true, attributes: ["id", "name", "email"] },
+      ],
+    });
+
+    if (!item) {
+      return res.status(400).json({ error: "Item does not exist" });
+    }
+
+    return res.json(item);
+  },
+
   async create(req, res) {
     const user_id = req.userId;
     const { title, description } = req.body;
