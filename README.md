@@ -1,5 +1,3 @@
-<br/>
-
 <h1 align="center">
   <img src="./.github/logo.png" alt="Lend-Remember" title="lend-remember" width="250px"/>
 </h1>
