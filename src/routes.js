@@ -7,6 +7,7 @@ const ItemController = require("./controllers/ItemController");
 const LendingController = require("./controllers/LendingController");
 const SessionController = require("./controllers/SessionController");
 const UserController = require("./controllers/UserController");
+const ProfileController = require("./controllers/ProfileController");
 
 routes.post("/users", UserController.create);
 routes.post("/sessions", SessionController.create);
@@ -79,5 +80,18 @@ routes.get(
 );
 routes.put("/lendings/:id", LendingController.update);
 routes.delete("/lendings/:id", LendingController.delete);
+
+routes.get(
+  "/profile/:option",
+  celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      option: Joi.string().required(),
+    }),
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+  }),
+  ProfileController.index
+);
 
 module.exports = routes;
